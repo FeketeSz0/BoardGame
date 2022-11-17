@@ -131,7 +131,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Name = "Form2";
-            this.Load += new System.EventHandler(this.Form2_Load);
+           
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);

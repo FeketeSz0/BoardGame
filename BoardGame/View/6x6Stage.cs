@@ -11,7 +11,7 @@ using Zh.Modell;
 
 namespace Zh
 {
-    public partial class Form3 : Form
+     public partial class Form3 : Form
     {
         static int gamesize = 6;
         static Map myMap = new Map(gamesize);
@@ -40,7 +40,7 @@ namespace Zh
 
             switch (turnIndex)
             {
-                case -1: game.turn = "Game over"; gameinprocess = false; break;
+                case -1: game.turn = "Game over"; gameinprocess = false; turnLabel.Text = "Game over"; break;
 
             }
 
@@ -370,22 +370,22 @@ namespace Zh
 
                     if (myMap.CellGrid[i, 0].isOcupiedbyP1)
                     {
-                        WinnerLabel.Text = "Player 1 WON"; turnLabel.Text = "Game over"; return "P1";
+                        WinnerLabel.Text = "Player 1 WON"; turnIndex = -1; GameLoop(); return "P1";
                     }
                     if (myMap.CellGrid[i, myMap.Size - 1].isOcupiedbyP2)
                     {
-                        WinnerLabel.Text = "Player 2 WON"; turnLabel.Text = "Game over"; return "P2";
+                        WinnerLabel.Text = "Player 2 WON"; turnIndex = -1; GameLoop(); return "P2";
                     }
                 }
             }
 
             if (P1StepOrder.Count == 0)
             {
-                turnLabel.Text = "Game over"; WinnerLabel.Text = "Player 2 WON"; return "P2";
+                WinnerLabel.Text = "Player 2 WON"; turnIndex = -1; GameLoop(); return "P2";
             }
             if (P2StepOrder.Count == 0)
             {
-                turnLabel.Text = "Game over"; WinnerLabel.Text = "Player 1 WON"; return "P1";
+                WinnerLabel.Text = "Player 1 WON"; turnIndex = -1; GameLoop(); return "P1";
             }
 
 
@@ -522,6 +522,8 @@ namespace Zh
         }
     }
 }
+
+
 
 
 

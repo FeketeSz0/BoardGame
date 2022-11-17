@@ -13,7 +13,7 @@ using System.Windows.Forms.VisualStyles;
 using Zh.Modell;
 
 namespace Zh
-{
+{ 
     public partial class Form2 : Form
     {
         static int gamesize = 8;
@@ -21,7 +21,7 @@ namespace Zh
         Game game = new Game();
         List<int> temps = new List<int>();
         int turnIndex = 1;
-        bool gameinprocess = false;
+        bool gameinprocess = true;
 
 
 
@@ -33,22 +33,20 @@ namespace Zh
 
 
         public Form2()
-        {
-            ResetOcuptaion();
+        { ResetOcuptaion();
             InitializeComponent();
             createBoard();
             setCharacters();
             game.isPlayer1turn = true;
             HighLightNext();
-
         }
         public void GameLoop()
         {
 
             switch (turnIndex)
             {
-                case -1: game.turn = "Game over";gameinprocess = false;  break;
-             
+                case -1: game.turn = "Game over"; gameinprocess = false; turnLabel.Text = "Game over"; break;
+
             }
 
 
@@ -79,15 +77,15 @@ namespace Zh
 
         public void setCharacters()
         {
-            
+
             //player1
-          
+
             buttons[0, myMap.Size - 1].BackColor = Color.LightBlue;
             buttons[0, myMap.Size - 1].Text = "4";
             myMap.CellGrid[0, myMap.Size - 1].isOcupiedbyP1 = true;
-          
+
             buttons[1, myMap.Size - 1].BackColor = Color.LightBlue;
-            buttons[1, myMap.Size - 1].Text = "3";          
+            buttons[1, myMap.Size - 1].Text = "3";
             myMap.CellGrid[1, myMap.Size - 1].isOcupiedbyP1 = true;
 
             buttons[1, myMap.Size - 2].BackColor = Color.LightBlue;
@@ -96,11 +94,11 @@ namespace Zh
 
             buttons[0, myMap.Size - 2].BackColor = Color.LightBlue;
             buttons[0, myMap.Size - 2].Text = "1";
-             myMap.CellGrid[0, myMap.Size - 2].isOcupiedbyP1 = true;
+            myMap.CellGrid[0, myMap.Size - 2].isOcupiedbyP1 = true;
 
 
             //player2
-            
+
 
             buttons[myMap.Size - 1, 0].BackColor = Color.LightCoral;
             buttons[myMap.Size - 1, 0].Text = "4";
@@ -118,8 +116,8 @@ namespace Zh
             buttons[myMap.Size - 2, 0].Text = "3";
             myMap.CellGrid[myMap.Size - 2, 0].isOcupiedbyP2 = true;
 
-          
-            
+
+
 
         }
 
@@ -147,7 +145,7 @@ namespace Zh
             temps.Add(y);
 
             if (gameinprocess) { 
-
+           
             //switch P1 vagy P2 köre
             switch (game.isPlayer1turn)
             {
@@ -194,11 +192,11 @@ namespace Zh
                         //ujratervezzük mi a foglalt kocka
                         resetButtonColors();
 
-                       
+
                         game.isPlayer1turn = false;
                         whoseturnLabel.Text = "Player2's move";
                         whoseturnLabel.ForeColor = Color.Red;
-                       
+
                         HighLightNext();
                         GameLoop();
 
@@ -210,7 +208,7 @@ namespace Zh
                     }
                     break;
 
-//-----------------------------player2 step------------------------------------------------------------
+                //-----------------------------player2 step------------------------------------------------------------
                 case false:
 
                     if (clickedButton.Text == P2StepOrder[0] && myMap.CellGrid[x, y].isOcupiedbyP2)
@@ -257,13 +255,13 @@ namespace Zh
                         whoseturnLabel.ForeColor = Color.Blue;
 
 
-                        turnIndex++; 
+                        turnIndex++;
                         turnLabel.Text = turnIndex.ToString();
-                        
-                      
-                        if (P2StepOrder.Count !=0) { HighLightNext(); }
-                        
-                        
+
+
+                        if (P2StepOrder.Count != 0) { HighLightNext(); }
+
+
 
 
 
@@ -272,18 +270,18 @@ namespace Zh
                     else
                     {
                         temps.Clear();
-                      
-                        
+
+
 
                     }
                     break;
             }
-            }
 
+            }
 
         }
 
-        
+
         public void resetButtonColors()
         {
             for (int i = 0; i < myMap.Size; i++)
@@ -300,7 +298,7 @@ namespace Zh
                     }
                     else
                     {
-                       buttons[i, j].BackColor = Color.Empty;
+                        buttons[i, j].BackColor = Color.Empty;
                     }
 
                 }
@@ -313,54 +311,54 @@ namespace Zh
             int xold = temps[0];
             int yold = temps[1];
             temps.Clear();
-            
+
 
             ///átcseréljük a kiválaszott kijelöl kockát a lépővel
             String text = buttons[xold, yold].Text;
             buttons[xold, yold].Text = String.Empty;
 
 
-           
+
             if (myMap.CellGrid[x, y].isOcupiedbyP1) { P1StepOrder.Remove(buttons[x, y].Text.ToString()); }
             if (myMap.CellGrid[x, y].isOcupiedbyP2) { P2StepOrder.Remove(buttons[x, y].Text.ToString()); }
 
-       
+
             //a régi mezőket neutrálisnak állítjuk.
             // A karakterek lépési sorrendjét modosítjuk azzal, h kivesszük és hátratesszük a végére
             // majd az új mezőt a kellő játékos tulajonára tesszük
-            
-                if (game.isPlayer1turn)
-                {
-                    myMap.CellGrid[xold, yold].isOcupiedbyP1 = false;
 
-                    string temp4 = P1StepOrder[0];
-                    P1StepOrder.RemoveAt(0);
-                    P1StepOrder.Add(temp4);
+            if (game.isPlayer1turn)
+            {
+                myMap.CellGrid[xold, yold].isOcupiedbyP1 = false;
 
-                    myMap.CellGrid[x, y].isOcupiedbyP1 = true;
-                    myMap.CellGrid[x, y].isOcupiedbyP2 = false;
-                }
-                else
-                {
-                    myMap.CellGrid[xold, yold].isOcupiedbyP2 = false;
+                string temp4 = P1StepOrder[0];
+                P1StepOrder.RemoveAt(0);
+                P1StepOrder.Add(temp4);
 
-                    string temp4 = P2StepOrder[0];
-                    P2StepOrder.RemoveAt(0);
-                    P2StepOrder.Add(temp4);
+                myMap.CellGrid[x, y].isOcupiedbyP1 = true;
+                myMap.CellGrid[x, y].isOcupiedbyP2 = false;
+            }
+            else
+            {
+                myMap.CellGrid[xold, yold].isOcupiedbyP2 = false;
 
-                    myMap.CellGrid[x, y].isOcupiedbyP2 = true;
-                    myMap.CellGrid[x, y].isOcupiedbyP1 = false;
+                string temp4 = P2StepOrder[0];
+                P2StepOrder.RemoveAt(0);
+                P2StepOrder.Add(temp4);
 
-                }
+                myMap.CellGrid[x, y].isOcupiedbyP2 = true;
+                myMap.CellGrid[x, y].isOcupiedbyP1 = false;
+
+            }
 
 
-                    buttons[x, y].Text = text;
+            buttons[x, y].Text = text;
 
-          
-                if (IsThereaWinner() != String.Empty)
-                {
-                    turnIndex = -1;
-                }
+
+            if (IsThereaWinner() != String.Empty)
+            {
+                turnIndex = -1;
+            }
 
         }
 
@@ -374,24 +372,25 @@ namespace Zh
             {
                 for (int j = 0; j < myMap.Size; j++)
                 {
-                   
+
                     if (myMap.CellGrid[i, 0].isOcupiedbyP1)
                     {
-                        WinnerLabel.Text = "Player 1 WON"; turnLabel.Text = "Game over"; return "P1";
+                        WinnerLabel.Text = "Player 1 WON"; turnIndex = -1; GameLoop(); return "P1";
                     }
                     if (myMap.CellGrid[i, myMap.Size - 1].isOcupiedbyP2)
                     {
-                        WinnerLabel.Text = "Player 2 WON"; turnLabel.Text = "Game over"; return "P2"; }
+                        WinnerLabel.Text = "Player 2 WON"; turnIndex = -1; GameLoop(); return "P2";
                     }
+                }
             }
 
             if (P1StepOrder.Count == 0)
             {
-                turnLabel.Text = "Game over"; WinnerLabel.Text = "Player 2 WON"; return "P2";
+                WinnerLabel.Text = "Player 2 WON"; turnIndex = -1; GameLoop(); return "P2";
             }
             if (P2StepOrder.Count == 0)
             {
-                turnLabel.Text = "Game over"; WinnerLabel.Text = "Player 1 WON"; return "P1";
+                WinnerLabel.Text = "Player 1 WON"; turnIndex = -1; GameLoop(); return "P1";
             }
 
 
@@ -420,7 +419,7 @@ namespace Zh
                 else
                 {
                     game.isPlayer1turn = true;
-                    turnIndex++; 
+                    turnIndex++;
                     whoseturnLabel.Text = "Player1's move";
                     turnLabel.Text = turnIndex.ToString();
                     whoseturnLabel.ForeColor = Color.Blue;
@@ -438,9 +437,11 @@ namespace Zh
 
 
 
-        public void HighLightNext() {
-            for (int i = 0; i < myMap.Size; i++) {
-                for (int j = 0; j < myMap.Size; j ++)
+        public void HighLightNext()
+        {
+            for (int i = 0; i < myMap.Size; i++)
+            {
+                for (int j = 0; j < myMap.Size; j++)
                 {
                     if (P1StepOrder.Count > 0)
                     {
@@ -449,23 +450,23 @@ namespace Zh
                             buttons[i, j].BackColor = Color.LightCyan;
                         }
                     }
-                    if(P2StepOrder.Count> 0) { 
+                    if (P2StepOrder.Count > 0)
+                    {
 
                         if (!game.isPlayer1turn && buttons[i, j].Text == P2StepOrder[0] && myMap.CellGrid[i, j].isOcupiedbyP2)
                         {
 
-                             buttons[i, j].BackColor = Color.PaleVioletRed;
+                            buttons[i, j].BackColor = Color.PaleVioletRed;
                         }
                     }
 
 
                 }
-            
-            }
-        
-        
-        }
 
+            }
+
+
+        }
 
         public void ResetOcuptaion()
         {
@@ -481,9 +482,6 @@ namespace Zh
             }
 
         }
-
-
-
 
 
 
@@ -515,17 +513,17 @@ namespace Zh
 
 
 
-        
+        }
 
 
-
-
-    }
-
-        private void Form2_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            
-           
+
+        }
+
+        private void Form3_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

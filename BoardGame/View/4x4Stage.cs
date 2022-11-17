@@ -44,7 +44,7 @@ namespace Zh
 
             switch (turnIndex)
             {
-                case -1: game.turn = "Game over"; isgameinprocess = false; break;
+                case -1: game.turn = "Game over"; isgameinprocess = false; turnLabel.Text = "Game over"; break;
 
             }
 
@@ -144,14 +144,13 @@ namespace Zh
             temps.Add(x);
             temps.Add(y);
 
-            if (isgameinprocess) { 
+            
 
             //switch P1 vagy P2 köre
-            switch (game.isPlayer1turn)
-            {
+                  if (game.isPlayer1turn && isgameinprocess) { 
 
                 //player1 step
-                case true:
+               
 
                     //kijelölés legal move
                     if (clickedButton.Text == P1StepOrder[0] && myMap.CellGrid[x, y].isOcupiedbyP1)
@@ -205,12 +204,14 @@ namespace Zh
                         temps.Clear();
 
                     }
-                    break;
-
+                    
+                }
                 //-----------------------------player2 step------------------------------------------------------------
-                case false:
+                else if(!game.isPlayer1turn && isgameinprocess) { 
 
-                    if (clickedButton.Text == P2StepOrder[0] && myMap.CellGrid[x, y].isOcupiedbyP2)
+
+
+                            if (clickedButton.Text == P2StepOrder[0] && myMap.CellGrid[x, y].isOcupiedbyP2)
                     {
                         //kijelöli a válaszott gombot
                         Cell currentCell = myMap.CellGrid[x, y];
@@ -273,10 +274,11 @@ namespace Zh
 
 
                     }
-                    break;
-            }
 
-            }
+                }
+            
+
+            
 
         }
 
@@ -354,10 +356,8 @@ namespace Zh
             buttons[x, y].Text = text;
 
 
-            if (IsThereaWinner() != String.Empty)
-            {
-                turnIndex = -1;
-            }
+            IsThereaWinner();
+           
 
         }
 
@@ -374,22 +374,22 @@ namespace Zh
 
                     if (myMap.CellGrid[i, 0].isOcupiedbyP1)
                     {
-                        WinnerLabel.Text = "Player 1 WON"; turnLabel.Text = "Game over"; return "P1";
+                        WinnerLabel.Text = "Player 1 WON"; turnIndex = -1; GameLoop(); return "P1" ;
                     }
                     if (myMap.CellGrid[i, myMap.Size - 1].isOcupiedbyP2)
                     {
-                        WinnerLabel.Text = "Player 2 WON"; turnLabel.Text = "Game over"; return "P2";
+                        WinnerLabel.Text = "Player 2 WON"; turnIndex = -1; GameLoop(); return "P2";
                     }
                 }
             }
 
             if (P1StepOrder.Count == 0)
             {
-                turnLabel.Text = "Game over"; WinnerLabel.Text = "Player 2 WON"; return "P2";
+                WinnerLabel.Text = "Player 2 WON"; turnIndex = -1; GameLoop(); return "P2";
             }
             if (P2StepOrder.Count == 0)
             {
-                turnLabel.Text = "Game over"; WinnerLabel.Text = "Player 1 WON"; return "P1";
+                 WinnerLabel.Text = "Player 1 WON"; turnIndex = -1; GameLoop(); return "P1";
             }
 
 
